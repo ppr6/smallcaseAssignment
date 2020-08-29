@@ -9,3 +9,7 @@ The API documentation can be found [here.](https://docs.google.com/document/d/1V
 ### Test Case Documentation
 
 The test case document can be found [here.](https://docs.google.com/spreadsheets/d/1qdoy3yOduhPw6p-VFps2e_MlOqwl_9GB3LzuDeuBM9Y/edit?usp=sharing)
+
+### Heroku application URL
+
+The hosted application can be found [here.](https://smallcase-assignment-ppr.herokuapp.com)
