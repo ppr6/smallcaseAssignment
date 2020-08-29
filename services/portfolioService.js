@@ -72,12 +72,7 @@ const getPortfolioReturns = async function (userId) {
     var portfolio = await getPortfolioDetails(userId);
     if (portfolio) {
         var returns = calculatePortfolioReturns(portfolio);
-        if (returns) {
-            return returns;
-        }
-        else {
-            throw { message: `User doesn't have any holdings - Unable to calculate returns`, status: 200 };
-        }
+        return returns;
     } else {
         throw { message: `Portfolio not found for user ID ${userId}`, status: 404 };
     }
@@ -95,12 +90,7 @@ const calculatePortfolioReturns = function (pf) {
         }).reduce((prev, cur) => {
             return prev + cur
         }, 0);
-        if (pfReturns) {
-            return pfReturns;
-        }
-        else {
-            return null;
-        }
+        return pfReturns;
     }
     else {
         return null;

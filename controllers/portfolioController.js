@@ -57,16 +57,9 @@ const getPortfolioReturns = async function (req, res) {
     var responseContent;
     try {
         var pfReturns = await portfolioService.getPortfolioReturns(userId);
-        if (pfReturns) {
-            responseContent = {
-                'portfolioReturns': pfReturns
-            };
-        }
-        else {
-            responseContent = {
-                'message': 'Error while fetching portfolio returns.',
-            };
-        }
+        responseContent = {
+            'portfolioReturns': pfReturns
+        };
         responseService.createResponse(res, 200, 'success', responseContent);
     }
     catch (ex) {
