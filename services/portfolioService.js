@@ -119,7 +119,8 @@ const getAllTrades = async function (userId) {
                         "tradeValue": "$tradeValue",
                         "unitMarketPrice": "$unitMarketPrice",
                         "tradeQuantity": "$tradeQuantity",
-                        "userId": "$userId"
+                        "userId": "$userId",
+                        "tradeId":"$tradeId"
                     }
                 }
             }
