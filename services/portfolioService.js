@@ -12,7 +12,7 @@ const PortfolioModel = require('../models/portfolioModel');
  */
 const getPortfolioDetails = async function (userId) {
     try {
-        var data = await portfolioModel.findOne({ userId: userId }).lean();
+        var data = await portfolioModel.findOne({ userId: userId });
         if (data)
             return data;
         else
@@ -31,9 +31,7 @@ const updatePortfolioDetails = async function (pfData) {
         pfData.portfolioDetails = pfData.portfolioDetails.filter(x => {
             return x.currentQuantity > 0;
         });
-        await PortfolioModel.findOneAndUpdate({
-            _id: pfData._id
-        }, pfData)
+        await pfData.save()
     } catch (err) {
         throw { message: `Error while updating the portfolio.` }
     }
@@ -51,7 +49,9 @@ const createNewPortfolio = function () {
  * @param {*} userId 
  */
 const getPortfolioTradeData = async function (userId) {
-    var portfolio = await getPortfolioDetails(userId);
+    var portfolio = await PortfolioModel.findOne({
+        userId: userId
+    }).lean();
     if (portfolio) {
         var result = await getAllTrades(userId);
         portfolio.trades = {};
@@ -120,7 +120,7 @@ const getAllTrades = async function (userId) {
                         "unitMarketPrice": "$unitMarketPrice",
                         "tradeQuantity": "$tradeQuantity",
                         "userId": "$userId",
-                        "tradeId":"$tradeId"
+                        "tradeId": "$tradeId"
                     }
                 }
             }
