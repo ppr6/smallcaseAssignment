@@ -4,6 +4,7 @@ const securitiesService = require('../services/securitiesService');
 const crypto = require('crypto');
 const TradesModel = require('../models/tradesModel');
 const tradeService = require('../services/tradeService');
+const PortfolioModel = require('../models/portfolioModel');
 
 /**
  * method to get the portfolio details for a particular user
@@ -11,7 +12,7 @@ const tradeService = require('../services/tradeService');
  */
 const getPortfolioDetails = async function (userId) {
     try {
-        var data = await portfolioModel.findOne({ userId: userId })
+        var data = await portfolioModel.findOne({ userId: userId }).lean();
         if (data)
             return data;
         else
@@ -30,7 +31,9 @@ const updatePortfolioDetails = async function (pfData) {
         pfData.portfolioDetails = pfData.portfolioDetails.filter(x => {
             return x.currentQuantity > 0;
         });
-        await pfData.save();
+        await PortfolioModel.findOneAndUpdate({
+            _id: pfData._id
+        }, pfData)
     } catch (err) {
         throw { message: `Error while updating the portfolio.` }
     }
@@ -51,7 +54,7 @@ const getPortfolioTradeData = async function (userId) {
     var portfolio = await getPortfolioDetails(userId);
     if (portfolio) {
         var result = await getAllTrades(userId);
-        portfolio.trades = [];
+        portfolio.trades = {};
         if (result) {
             result.forEach((t) => {
                 portfolio.trades[t._id] = [...t.trades];
